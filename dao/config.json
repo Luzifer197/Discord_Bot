@@ -4,5 +4,6 @@
         "Clientsecret": "",
         "ClientID":"",
         "BotURL": ""
-    }
+    },
+    "ChatGPT": "{add here Api Key to ChatGPT}"
 }
