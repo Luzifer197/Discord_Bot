@@ -1,0 +1,8 @@
+{
+    "Discord": {
+        "Token": "{here entre the information for the code from https://discord.com/developers/applications}",
+        "Clientsecret": "",
+        "ClientID":"",
+        "BotURL": ""
+    }
+}
