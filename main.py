@@ -4,12 +4,12 @@ import random
 from nextcord.ext import commands
 from selfFunction import get_random_image_url
 
-# Laden der Konfiguration aus der JSON-Datei
-with open("./dao/config.json", "r") as config_file:
+with open("./config.json", "r") as config_file: #change path do ./dao/config.json
     config_data = json.load(config_file)
 
 TOKEN = config_data["Discord"]["Token"]
 BOTURL = config_data["Discord"]["BotURL"]
+UNSPLASHAPI = config_data["unsplash"]
 
 intents = nextcord.Intents.all()
 intents.message_content = True
@@ -41,7 +41,7 @@ async def get_invite_link(ctx):
 )
 async def Profile(ctx, user: nextcord.Member = None):
     if user is None:
-        user = ctx.user  # Verwende den Autor der Nachricht, wenn kein Benutzer übergeben wurde
+        user = ctx.user
 
     inline = True
     embed = nextcord.Embed(
@@ -82,7 +82,7 @@ async def server_info(ctx):
     server = ctx.guild
 
     inline = True
-    color = nextcord.Colour(random.randint(0, 0xFFFFFF))  # Erzeugt eine zufällige Farbe
+    color = nextcord.Colour(random.randint(0, 0xFFFFFF))  #Create random Colors
     embed = nextcord.Embed(
         title=f"Server-Info - {server.name}",
         color=color
@@ -104,7 +104,7 @@ async def server_info(ctx):
         )
 
     embed.set_footer(text=f"Server-ID: {server.id}")
-    embed.set_thumbnail(url=get_random_image_url())
+    embed.set_thumbnail(url=get_random_image_url(UNSPLASHAPI))
 
     await ctx.send(embed=embed)
 
@@ -114,7 +114,7 @@ async def server_info(ctx):
 )
 async def clear_messages(ctx, anzahl: int):
     if 1 <= anzahl <= 100:
-        await ctx.channel.purge(limit=anzahl + 1)  # +1, um das Kommando selbst mitzulöschen
+        await ctx.channel.purge(limit=anzahl + 1)
         await ctx.send(f"Habe die letzten {anzahl} Nachrichten gelöscht!")
 
 
