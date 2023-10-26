@@ -1,2 +1,5 @@
-discord
-discord-py-slash-command
+json
+nextcord
+random
+requests
+nextcord.ext
