@@ -1,1 +1,4 @@
-./dao/*
+config.json
+.vscode
+__pycache__
+.git
