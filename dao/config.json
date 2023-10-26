@@ -1,9 +1,12 @@
 {
+    
     "Discord": {
-        "Token": "{here entre the information for the code from https://discord.com/developers/applications}",
-        "Clientsecret": "",
-        "ClientID":"",
-        "BotURL": ""
+        "Token": "add Token",
+        "Clientsecret": "add Clientsecret",
+        "ClientID":"add ClientID",
+        "BotURL": "add Bot invite URL"
     },
-    "ChatGPT": "{add here Api Key to ChatGPT}"
+    
+    "ChatGPT": "add ChatGPT Key",
+    "unsplash": "add unsplash Key"
 }
