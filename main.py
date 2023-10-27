@@ -2,7 +2,7 @@ import nextcord
 import json
 import random
 from nextcord.ext import commands
-from selfFunction import get_random_image_url
+from selfFunction import get_random_image_url, log_server_info, create_server_info_log, einladungslink_sätze
 
 with open("./config.json", "r") as config_file: #change path do ./dao/config.json
     config_data = json.load(config_file)
@@ -20,20 +20,21 @@ Bot.remove_command("help")
 
 @Bot.event
 async def on_ready():
+    create_server_info_log(Bot)
     await Bot.change_presence(status=nextcord.Status.online, activity=nextcord.Game("help"))
     print(f'Logged in as {Bot.user.name} ({Bot.user.id})')
     await Bot.sync_all_application_commands()
 
 @Bot.event
-async def on_disconnect():
-    await Bot.change_presence(status=nextcord.Status.offline, activity=nextcord.Game(""))
+async def on_guild_join(server):
+    log_server_info(Bot, server)
 
 @Bot.slash_command(
     name="einladungslink",
     description="Bekomme den Einladungslink, um den Bot in andere Server einzuladen."
 )
 async def get_invite_link(ctx):
-    await ctx.send('Hier bekommst du meinen Einladungslink: ' + BOTURL)
+    await ctx.send(random.choice(einladungslink_sätze) + BOTURL)
 
 @Bot.slash_command(
     name="user",
