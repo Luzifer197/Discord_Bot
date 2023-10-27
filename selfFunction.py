@@ -62,7 +62,7 @@ def log_server_info(client, guild):
         log_file.write(log_text)
 
 def log_new_member_info(member):
-    log_text = f"Neues Mitglied beigetreten - Benutzername: {member.name}, Benutzer-ID: {member.id}\n"
+    log_text = f"Neues Mitglied beigetreten - Benutzername: {member.name}, Benutzer-ID: {member.id}, joined at: {member.joined_at.strftime('%Y-%m-%d %H:%M:%S')}\n"
 
     # Ausgabe in der Befehlszeile und in die Log-Datei
     print(log_text)
@@ -80,8 +80,37 @@ def create_member_info_log(guild):
 
     log_file_path = log_directory + "server_member_info.log"
     with open(log_file_path, "w") as log_file:
-        log_file.write(f"Mitglieder im Server {guild.name} (Server-ID: {guild.id}):\n")
+        log_file.write(f"Mitglieder von {guild.name}")
         for member in guild.members:
-            log_text = f"- Benutzername: {member.name}, Benutzer-ID: {member.id}, joined at: {member.joined_at.strftime('%Y-%m-%d %H:%M:%S')}\n"
+            log_text = f"        - Benutzername: {member.name}, Benutzer-ID: {member.id}, joined at: {member.joined_at.strftime('%Y-%m-%d %H:%M:%S')}\n"
             log_file.write(log_text)
             print(log_text)
+            
+            
+def log_ServersMember_info(bot):
+    log_directory = "./log/"
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    log_file_path = log_directory + "newMitgliederInfo.log"
+
+    with open(log_file_path, "a") as log_file:
+        for guild in bot.guilds:
+            server_name = guild.name
+            for member in guild.members:
+                username = member.name
+                user_id = member.id
+                join_date = member.joined_at.strftime('%Y-%m-%d %H:%M:%S')
+                log_text = f"Mitglied in {server_name}({guild.id}):\n  Benutzername: {username}\n  Benutzer-ID: {user_id}\n  joined at: {join_date}\n"
+                log_file.write(log_text + "\n")
+                print(log_text)
+            
+
+help: dict = {}
+
+def add_command(command_name: str, command_description: str):
+    newHelp = {}
+    
+    for [key, description] in help:
+        newHelp.update({key : description})
+    
+    newHelp.update({command_name : command_description})
