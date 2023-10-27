@@ -2,7 +2,7 @@ import nextcord
 import json
 import random
 from nextcord.ext import commands
-from selfFunction import get_random_image_url, log_server_info, create_server_info_log, einladungslink_sätze
+from selfFunction import log_new_member_info, get_random_image_url, log_server_info, create_server_info_log, create_member_info_log, einladungslink_sätze
 
 with open("./config.json", "r") as config_file: #change path do ./dao/config.json
     config_data = json.load(config_file)
@@ -24,10 +24,19 @@ async def on_ready():
     await Bot.change_presence(status=nextcord.Status.online, activity=nextcord.Game("help"))
     print(f'Logged in as {Bot.user.name} ({Bot.user.id})')
     await Bot.sync_all_application_commands()
-
+@Bot.event
+async def on_guild_ready(guild):
+    # Diese Funktion wird aufgerufen, wenn der Bot für einen Server vollständig bereit ist
+    create_member_info_log(guild)
+    
 @Bot.event
 async def on_guild_join(server):
     log_server_info(Bot, server)
+    
+@Bot.event
+async def on_member_join(member):
+    # Diese Funktion wird aufgerufen, wenn ein neues Mitglied dem Server beitritt
+    log_new_member_info(member)
 
 @Bot.slash_command(
     name="einladungslink",
