@@ -37,14 +37,12 @@ einladungslink_sätze = [
 
 
 def create_server_info_log(client):
-    # Überprüfe, ob das "log" Verzeichnis existiert, andernfalls erstelle es
-    import os
     log_directory = "./log/"
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
 
-    # Öffne die Log-Datei im Schreibmodus und füge die Server-Informationen hinzu
-    with open(log_directory + "bot_server_info.log", "w") as log_file:
+    log_file_path = log_directory + "bot_server_info.log"
+    with open(log_file_path, "w") as log_file:
         log_file.write("Bot ist in den folgenden Servern angemeldet:\n")
         for guild in client.guilds:
             log_text = f"- Servername: {guild.name}, Server-ID: {guild.id}\n"
@@ -53,16 +51,37 @@ def create_server_info_log(client):
 
 def log_server_info(client, guild):
     log_text = f"Bot ist dem Server beigetreten - Servername: {guild.name}, Server-ID: {guild.id}\n"
-    
-    # Ausgabe in der Befehlszeile
+
+    # Ausgabe in der Befehlszeile und in die Log-Datei
     print(log_text)
-    
-    # Überprüfe, ob das "log" Verzeichnis existiert, andernfalls erstelle es
-    import os
+    log_directory = "./log/"
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    log_file_path = log_directory + "bot_server_info.log"
+    with open(log_file_path, "a") as log_file:
+        log_file.write(log_text)
+
+def log_new_member_info(member):
+    log_text = f"Neues Mitglied beigetreten - Benutzername: {member.name}, Benutzer-ID: {member.id}\n"
+
+    # Ausgabe in der Befehlszeile und in die Log-Datei
+    print(log_text)
+    log_directory = "./log/"
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    log_file_path = log_directory + "newMitgliederInfo.log"
+    with open(log_file_path, "a") as log_file:
+        log_file.write(log_text)
+
+def create_member_info_log(guild):
     log_directory = "./log/"
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
 
-    # Öffne die Log-Datei im Schreibmodus und füge die Server-Informationen hinzu
-    with open(log_directory + "bot_server_info.log", "a") as log_file:
-        log_file.write(log_text)
+    log_file_path = log_directory + "server_member_info.log"
+    with open(log_file_path, "w") as log_file:
+        log_file.write(f"Mitglieder im Server {guild.name} (Server-ID: {guild.id}):\n")
+        for member in guild.members:
+            log_text = f"- Benutzername: {member.name}, Benutzer-ID: {member.id}, joined at: {member.joined_at.strftime('%Y-%m-%d %H:%M:%S')}\n"
+            log_file.write(log_text)
+            print(log_text)
